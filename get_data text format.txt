@@ -1,0 +1,41 @@
+<?php
+$url=$_SERVER['REQUEST_URI'];
+header("Refresh: 5; URL=$url");  // Refresh the webpage every 5 seconds
+?>
+<html>
+<head>
+    <title>Voltage Sensor</title>
+</head>
+    <body>
+        <h1>Voltage sensor readings</h1>
+    <table border="0" cellspacing="0" cellpadding="4">
+      <tr>
+            <td>ID</td>
+            <td>Timestamp</td>
+            <td>Value</td>
+      </tr>
+      
+<?php
+    // Connect to database
+    $con=mysqli_connect("localhost","root","","test");
+       
+    // Retrieve records
+    $result = mysqli_query($con,'SELECT * FROM sensor ORDER BY id DESC');
+      
+    // Display
+    while($row = mysqli_fetch_array($result))
+    {      
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+        echo "<td>" . $row['time'] . "</td>";
+        echo "<td>" . $row['value'] . "</td>";
+        echo "</tr>";
+        
+    }
+        
+    // Close the connection   
+    mysqli_close($con);
+?>
+    </table>
+    </body>
+</html>
